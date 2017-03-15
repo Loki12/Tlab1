@@ -25,14 +25,23 @@ public class Solution {
         List<List<Integer>> firstLevel = createFirstLevel(listList);
 
         firstLevel.forEach(System.out::println);
+
         List<List<Integer>> lists = nextLevel(firstLevel);
         lists.forEach(System.out::println);
-
+        lists = nextLevel(lists);
+        lists.forEach(System.out::println);
+        //lists = nextLevel(lists);
+        //lists.forEach(System.out::println);
     }
 
     private static List<List<Integer>> nextLevel(List<List<Integer>> firstLevel) {
+
+        //нужно найти столбцы, которые послностью нулевые и убрать их
+
         firstLevel = rotateMatrix(firstLevel);
 
+
+        //
         List<Integer> index = new LinkedList<>();
         for (int i = 0; i <firstLevel.size(); i++) {
             if (firstLevel.get(i).stream().noneMatch(b-> b.equals(1)))
@@ -41,17 +50,36 @@ public class Solution {
             }
         }
 
-        for (int i = 0; i < index.size(); i++) {
-            firstLevel.remove(index.get(i));
-        }
-        firstLevel = rotateMatrix(firstLevel);
-
-        for (int i = 0; i < index.size(); i++) {
-            firstLevel.remove(index.get(i));
+        /*System.out.print("Индексы");
+        index.forEach(System.out::println);*/
+        for (int i=0; i!=index.size(); i++)
+        {
+            System.out.println(index.get(i)+1);
         }
 
+        for (int i = index.size()-1; i !=-1; i--) {
+            firstLevel.remove((int)index.get(i));
+        }
+/*
+        System.out.println("ДО");
+        firstLevel.forEach(System.out::println);
+*/
+
         firstLevel = rotateMatrix(firstLevel);
-        firstLevel = rotateMatrix(firstLevel);
+
+/*
+        System.out.println("После");
+        firstLevel.forEach(System.out::println);
+*/
+
+        for (int i = index.size()-1; i !=-1; i--) {
+            firstLevel.remove((int)index.get(i));
+        }
+
+/*
+        System.out.println("После после");
+        firstLevel.forEach(System.out::println);
+*/
 
         return firstLevel;//firstLevel.stream().filter(a-> a.stream().anyMatch(b-> b.equals(1))).collect(Collectors.toList());
 
@@ -77,13 +105,13 @@ public class Solution {
 
     private static Integer Compare(List<Integer> list, List<Integer> aListList) {
 
-        System.out.println();
+       /* System.out.println();
         System.out.println("Сравниваемый список");
         list.forEach(System.out::println);
         System.out.println("Второй список");
         aListList.forEach(System.out::println);
         System.out.println();
-
+*/
         Integer flag = 1;
         for (int i = 0; i < list.size(); i++) {
             if(list.get(i) < aListList.get(i))
@@ -91,9 +119,6 @@ public class Solution {
                 flag = 0;
             }
         }
-
-        System.out.println("Итог");
-        System.out.println(flag);
         return flag;
     }
 
